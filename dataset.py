@@ -1,4 +1,5 @@
 import re
+import sys
 
 import config
 
@@ -52,4 +53,5 @@ def create_dataset(n_samples=None, name="dataset.txt"):
     print("Dataset created at", dataset_fn)
 
 if __name__ == "__main__":
-    create_dataset(n_samples=5)
+    n_samples = sys.argv[1] if len(sys.argv) > 1 else None
+    create_dataset(n_samples=n_samples)
