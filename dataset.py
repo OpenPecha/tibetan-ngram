@@ -8,7 +8,6 @@ shed = "།"
 
 def tokenize_syl(text):
     segments = text.split(shed)
-    print(segments)
     syls = []
     for segment in segments:
         segment = segment.strip()
