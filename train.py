@@ -19,6 +19,8 @@ def train(model_path, n_samples=int(1e6)):
     print("Loading dataset...")
     sents = list(dataset.get_syls_sentences(n_samples=n_samples))
 
+    print(f"Loaded {len(sents)} sentences")
+
     print("Creating n-grams...")
     train_data, padded_sents = padded_everygram_pipeline(n, sents)
 
