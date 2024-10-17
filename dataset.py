@@ -14,7 +14,8 @@ def tokenize_syl(text):
     return syls
 
 
-def get_syls_sentences(n_samples=int(1e9)):
+def get_syls_sentences(n_samples=None):
+    n_samples = n_samples or int('inf')
     i = 0
     do_break = False
     for fn in config.DATA_PATH.glob("*.txt"):

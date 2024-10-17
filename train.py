@@ -14,7 +14,7 @@ def save_model(model, model_path):
         pickle.dump(model, fout)
     print("Model saved to", model_path)
 
-def train(model_path, n_samples=int(1e6)):
+def train(model_path, n_samples=None):
     n = 3
     print("Loading dataset...")
     sents = list(dataset.get_syls_sentences(n_samples=n_samples))
