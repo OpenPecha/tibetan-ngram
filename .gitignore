@@ -132,3 +132,4 @@ dmypy.json
 
 exports
 models
+.DS_Store
