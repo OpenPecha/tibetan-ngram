@@ -14,7 +14,9 @@ def get_model(model_name):
 
 def autocomplete(text_seed, model, n):
     text_seed = tokenize_syl(text_seed)
+
     completion = model.generate(text_seed=text_seed, num_words=n, random_seed=19)
+
     if n == 1:
         return completion
     return detokenize_syls(completion)
