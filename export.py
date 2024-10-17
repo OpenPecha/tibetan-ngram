@@ -3,11 +3,12 @@ import sys
 from pathlib import Path
 
 import dill as pickle
+from nltk.lm import KneserNeyInterpolated
 
 import config
 
 
-def load_model(model_path):
+def load_model(model_path) -> KneserNeyInterpolated:
     with open(str(model_path), 'rb') as f:
         return pickle.load(f)
 
@@ -25,7 +26,7 @@ def get_log_backoff(backoff):
 
 def export(model_path):
 
-    print("Exporting trigram probabilities...")
+    print("Exporting model to ARPA format...")
     trigram_model = load_model(model_path)
 
     # Collecting unigrams, bigrams, and trigrams

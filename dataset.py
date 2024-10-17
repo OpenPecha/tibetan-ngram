@@ -1,3 +1,5 @@
+import re
+
 import config
 
 tsek = "་"
@@ -5,12 +7,13 @@ shed = "།"
 
 def tokenize_syl(text):
     segments = text.split(shed)
+    print(segments)
     syls = []
     for segment in segments:
         segment = segment.strip()
         if not segment or segment == shed:
             continue
-        syls.extend([s+tsek for s in segment.split(tsek)])
+        syls.extend(re.findall(r'[^་]+་?', segment))
     return syls
 
 
@@ -19,6 +22,7 @@ def get_syls_sentences(n_samples=None):
     i = 0
     do_break = False
     for fn in config.DATA_PATH.glob("*.txt"):
+        print(fn)
         lines = fn.read_text().splitlines()
         for line in lines:
             if i >= n_samples:
@@ -37,7 +41,15 @@ def detokenize_syls(syls):
         result += syl
     return result
 
+def create_dataset(n_samples=None, name="dataset.txt"):
+    dataset_fn = config.DATA_PATH / name
+
+    with open(str(dataset_fn), 'w') as f:
+        for syls in get_syls_sentences(n_samples=n_samples):
+            f.write(" ".join(syls))
+            f.write("\n")
+
+    print("Dataset created at", dataset_fn)
+
 if __name__ == "__main__":
-    text = "༄༅། ། འཕགས་པ་སཱ་ལུ་ལྗང་པ་ཞེས་བྱ་བ་ཐེག་པ་ཆེན་པོའི་མདོའི་རྒྱ་ཆེར་བཤད་པ།༄༅༅། ། རྒྱ་གར་སྐད་དུ། ཨཱརྱ་ཤཱ་ལི་སྟམྦ་ཀ་མ་ཧཱ་ཡཱ་ན་སཱུ་ཏྲ་ཊཱི་ཀཱ།"
-    syls = tokenize_syl(text)
-    print(syls)
+    create_dataset(n_samples=5)
