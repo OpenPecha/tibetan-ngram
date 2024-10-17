@@ -35,6 +35,7 @@ def get_syls_sentences_parallel():
 
     # Read lines from each file and collect them
     for fn in files:
+        print(fn)
         lines = fn.read_text().splitlines()
         all_lines.extend(lines)
 
