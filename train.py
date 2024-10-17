@@ -17,9 +17,7 @@ def save_model(model, model_path):
 def train(model_path, n_samples=None):
     n = 3
     print("Loading dataset...")
-    sents = list(dataset.get_syls_sentences(n_samples=n_samples))
-
-    print(f"Loaded {len(sents)} sentences")
+    sents = dataset.get_syls_sentences(n_samples=n_samples)
 
     print("Creating n-grams...")
     train_data, padded_sents = padded_everygram_pipeline(n, sents)
