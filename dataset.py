@@ -28,7 +28,7 @@ def process_file_lines(lines):
 
 def get_syls_sentences_parallel():
     # Gather all text files from the data path
-    files = list(config.DATA_PATH.glob("*.txt"))
+    files = list(config.DATA_PATH.glob("*.txt"))[:10000]
 
     # List to store all lines from all files
     all_lines = []
