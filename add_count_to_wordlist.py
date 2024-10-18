@@ -28,9 +28,10 @@ def process(count_fn, wordlist_fn):
     counter = build_counter(count_fn)
     for word in get_wordlist(wordlist_fn):
         if word in counter:
-            wordlist_counter[word] = counter[word]
-        else:
-            wordlist_counter[word] = 0
+            count = counter[word]
+            if count < 1000:
+                continue
+            wordlist_counter[word] = count
 
     save_counter(wordlist_counter, "data/wordlist_counter.txt")
 
