@@ -24,7 +24,7 @@ def get_syls_sentences(n_samples=float("inf")):
     i = 0
     sampled = False
     files = list(config.DATA_PATH.glob("*.txt"))
-    for fn in files[:10000]:
+    for fn in files:
         for line in fn.read_text().splitlines():
             if i > n_samples:
                 sampled = True
