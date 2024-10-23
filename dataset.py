@@ -20,7 +20,8 @@ def tokenize_syl(text):
     return syls
 
 
-def get_syls_sentences(n_samples=float("inf")):
+def get_syls_sentences(n_samples=None):
+    n_samples = n_samples or sys.maxsize
     i = 0
     sampled = False
     files = list(config.DATA_PATH.glob("*.txt"))
