@@ -8,6 +8,7 @@ import config
 tsek = "་"
 shed = "།"
 
+
 def tokenize_syl(text):
     segments = text.split(shed)
     syls = []
@@ -15,8 +16,25 @@ def tokenize_syl(text):
         segment = segment.strip()
         if not segment or segment == shed:
             continue
-        syls.extend(re.findall(r'[^་]+་?', segment))
+        syls.extend(re.findall(r"[^་]+་?", segment))
     return syls
+
+
+def get_syls_sentences(n_samples=float("inf")):
+    i = 0
+    sampled = False
+    files = list(config.DATA_PATH.glob("*.txt"))
+    for fn in files[:10000]:
+        for line in fn.read_text().splitlines():
+            if i > n_samples:
+                sampled = True
+                break
+            syls = tokenize_syl(line)
+            yield syls
+            i += 1
+        if sampled:
+            break
+
 
 # Function to process lines in parallel
 def process_file_lines(lines):
@@ -25,6 +43,7 @@ def process_file_lines(lines):
         syls = tokenize_syl(line)
         processed_lines.append(" ".join(syls))
     return processed_lines
+
 
 def get_syls_sentences_parallel():
     # Gather all text files from the data path
@@ -50,11 +69,18 @@ def get_syls_sentences_parallel():
             chunk_size = 1  # In case there are fewer lines than workers
 
         # Distribute the work and process in parallel
-        result_chunks = pool.map(process_file_lines, [all_lines[i:i + chunk_size] for i in range(0, len(all_lines), chunk_size)])
+        result_chunks = pool.map(
+            process_file_lines,
+            [
+                all_lines[i : i + chunk_size]
+                for i in range(0, len(all_lines), chunk_size)
+            ],
+        )
 
     # Flatten the results into a single list of processed lines
     flat_results = [line for sublist in result_chunks for line in sublist]
     return flat_results
+
 
 def detokenize_syls(syls):
     result = ""
@@ -64,6 +90,7 @@ def detokenize_syls(syls):
         result += syl
     return result
 
+
 def create_dataset(name="dataset.txt"):
     dataset_fn = config.DATA_PATH / name
 
@@ -71,12 +98,13 @@ def create_dataset(name="dataset.txt"):
     syls_sentences = get_syls_sentences_parallel()
 
     # Write the dataset to the output file
-    with open(str(dataset_fn), 'w') as f:
+    with open(str(dataset_fn), "w") as f:
         for syls in syls_sentences:
             f.write(syls)
             f.write("\n")
 
     print("Dataset created at", dataset_fn)
+
 
 if __name__ == "__main__":
     create_dataset()

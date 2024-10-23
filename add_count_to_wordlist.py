@@ -15,7 +15,8 @@ wordlist_counter = {}
 
 def get_wordlist(fn):
     with open(fn, "r") as f:
-        return f.read().splitlines()
+        for word in f.read().splitlines():
+            yield word.strip()
 
 
 def save_counter(counter, fn):
