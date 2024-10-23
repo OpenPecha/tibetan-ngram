@@ -40,6 +40,6 @@ def start_counting(counter_path, n_samples=None):
 if __name__ == "__main__":
     counter_name = sys.argv[1]
     wordlist_path = sys.argv[2]
-    n_samples = int(sys.argv[3]) if len(sys.argv) > 2 else None
+    n_samples = int(sys.argv[3]) if len(sys.argv) > 3 else None
     counter_path = config.MODELS_PATH / f"{counter_name}_counts.txt"
     start_counting(counter_path, n_samples=n_samples)
